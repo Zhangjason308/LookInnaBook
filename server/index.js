@@ -5,23 +5,19 @@ const pool = require("./db");
 
 //middleware
 app.use(cors());
-app.use(express.json()); //req.body
+app.use(express.json());
 
 //ROUTES//
 
 //create a todo
 
-app.post("/todos", async(req,res) =>{
+app.post("/todos",async(req,res) =>{
     try {
-        const {description} = req.body;
-        //const newTodo = await pool.query("INSERT INTO todo()")
-        console.log(description);
+        
     } catch (error) {
         console.error(error.message);
     }
-});
-
-
+})
 
 //get all todos
 
@@ -34,4 +30,3 @@ app.post("/todos", async(req,res) =>{
 app.listen(5000, () => {
     console.log("server has started on port 5000");
 });
-
