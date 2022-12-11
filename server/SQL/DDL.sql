@@ -1,109 +1,110 @@
-CREATE DATABASE lookinnabook;
 
-CREATE TABLE lookinnabook.book (
+CREATE TABLE book (
     isbn varchar(13),
     title varchar(50) NOT NULL,
-    genre varchar(20) NOT NULL,
-    pages numeric(4,0) NOT NULL, 
+    genre varchar(50) NOT NULL,
+    pages varchar(50) NOT NULL, 
     price numeric(4,2) NOT NULL,
     royalty numeric(4,2),
-    quantity numeric(3,0) NOT NULL,
+    quantity int NOT NULL,
 
     PRIMARY KEY (isbn)
 
 );
 
-CREATE TABLE lookinnabook.user (
-    email varchar(30),
-    password varchar(20) NOT NULL, 
-    fname varchar(20),
-    lname varchar(20),
-    address varchar(1-0),
-    cardinfo numeric(16,0),
+CREATE TABLE users (
+    email varchar(50),
+    password varchar(50) NOT NULL, 
+    fname varchar(50),
+    lname varchar(50),
+    address varchar(100),
+    cardinfo varchar(50),
     isOwner boolean,
 
     PRIMARY KEY (email)
 );
 
-CREATE TABLE lookinnabook.payment (
-    card_number numeric(16,0),
+CREATE TABLE payment (
+    card_number varchar(50),
     expiry_date varchar(4) NOT NULL,
-    cvv numeric(3) NOT NULL,
+    cvv varchar(3) NOT NULL,
     address varchar(50) NOT NULL,
     name varchar(50) NOT NULL,
 
-    PRIMARY KEY (card_number),
-    FOREIGN KEY (card_number) REFERENCES lookinnabook.user(cardinfo)
+    PRIMARY KEY (card_number)
+    
 );
 
-CREATE TABLE lookinnabook.usercc(
+CREATE TABLE usercc(
     email varchar(30),
-    card_number numeric(16,0),
+    card_number varchar(50),
     
 
     PRIMARY KEY (card_number),
-    FOREIGN KEY (email) REFERENCES lookinnabook.user(email)
+    FOREIGN KEY (email) REFERENCES users(email)
 
 );
 
 
 
-CREATE TABLE lookinnabook.publisher (
+CREATE TABLE publisher (
     p_isbn varchar(13),
-    p_name varchar(20),
+    p_name varchar(50),
     p_email varchar(30),
-    p_number numeric(10,0),
-    p_bank numeric(20,0),
+    p_number varchar(50),
+    p_bank varchar(50),
     
 
     PRIMARY KEY (p_name),
-    FOREIGN KEY (p_isbn) REFERENCES lookinnabook.book(isbn)
+    FOREIGN KEY (p_isbn) REFERENCES book(isbn)
 );
 
-CREATE TABLE lookinnabook.author (
+CREATE TABLE author (
     isbn varchar(13),
-    a_fname varchar(20),
-    a_lname varchar(20),
+    a_fname varchar(50),
+    a_lname varchar(50),
     
     PRIMARY KEY(a_fname, a_lname, isbn),
-    FOREIGN KEY (isbn) REFERENCES lookinnabook.book(isbn)
+    FOREIGN KEY (isbn) REFERENCES book(isbn) on DELETE CASCADE
 );
 
-CREATE TABLE lookinnabook.cartItem (
+CREATE TABLE cartItem (
     isbn varchar(13),
     cartID int,
-    quantity numeric(3,0),
+    quantity int,
     price numeric(6,2),
 
-    PRIMARY KEY (isbn, cartID)
+    PRIMARY KEY (cartID)
 );
 
-CREATE TABLE lookinnabook.cart (
+CREATE TABLE cart (
     c_cartID int,
     email varchar(30),
 
     PRIMARY KEY (c_cartID),
-    FOREIGN KEY (c_cartID) REFERENCES lookinnabook.cartItem(cartID)
-    FOREIGN KEY (email) REFERENCES lookinnabook.user(email)
+    FOREIGN KEY (c_cartID) REFERENCES cartItem(cartID),
+    FOREIGN KEY (email) REFERENCES users(email)
 );
 
-CREATE TABLE lookinnabook.order (
+CREATE TABLE orders (
     orderID int,
-    order_date varchar(8,0),
+    order_date varchar(30),
     subtotal numeric(6,2),
     tax numeric(5,2),
+	
+	PRIMARY KEY (orderID)
 );
 
-CREATE TABLE lookinnabook.shipping (
+CREATE TABLE shipping (
     shippingID int,
     shipping_address varchar(100),
     orderID int,
-    estimatedate varchar(8,0),
-    actualdate varchar(8,0)
+    estimatedate varchar(30),
+    actualdate varchar(30),
 
     PRIMARY KEY (shippingID, orderID),
-    FOREIGN KEY (orderID) REFERENCES lookinnabook.order(orderID)
-)
+    FOREIGN KEY (orderID) REFERENCES orders(orderID)
+);
 
 
 

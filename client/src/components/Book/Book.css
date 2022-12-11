@@ -1,0 +1,25 @@
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+
+
+}
+.card {
+    margin: 1rem;
+    padding: 1rem;
+    width: 200px;
+    height: 400px;
+    background-color:#D3D3D3 ;
+    border: 1px solid black;
+    box-shadow: 5px 5px 10px #ccc;
+    align-items: center;
+    
+    
+}
+
+Button {
+    background-color: black;
+}
