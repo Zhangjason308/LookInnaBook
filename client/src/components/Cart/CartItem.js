@@ -1,10 +1,14 @@
 import { Button } from '@mui/material';
-//import axios from 'axios';
+import axios from 'axios';
 import React from 'react'
 import "../Book/Book.css";
-//import {useNavigate} from 'react-router-dom';
 
 export const CartItem = (props) => {
+
+  const deleteHandler = () => {
+    axios.delete(`http://localhost:5000/cart/${isbn}`).then(res=>res.data);
+    window.location.reload(false);
+  };
   
     const {isbn, cartID, quantity, price} = props.cartItem;
 
@@ -17,7 +21,7 @@ export const CartItem = (props) => {
         <p>Price: ${price}</p>
     
         
-        <Button  sx={{mt: "auto"}}>X</Button>
+        <Button onClick={deleteHandler} sx={{mt: "auto"}}>Remove from Cart</Button>
 
     </div>
   )

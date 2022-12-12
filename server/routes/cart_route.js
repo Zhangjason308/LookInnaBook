@@ -19,6 +19,21 @@ const router = express.Router();
         }
         
         });
+
+        router.delete("/:id",async(req,res) => {
+            
+            try {
+            const { id } = req.params;
+            const {isbn, cartID, quantity, price} = req.body;
+            await pool.query(`DELETE FROM cartItem WHERE isbn = \'${id}\'`);
+            console.log(id);
+            res.json((await allBooks).rows);
+            //console.log((await allBooks).rows);
+            } catch (error) {
+                console.log(error);
+            }
+            
+        });
         
     
     return router;

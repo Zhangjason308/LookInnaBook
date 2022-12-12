@@ -47,7 +47,7 @@ const AddBook = () => {
         sendRequest().then(() => {
             return history("/books");
         });
-        window.location.href='http://localhost:3000/books';
+        //window.location.href='http://localhost:3000/books';
     };
     return (
   <div>

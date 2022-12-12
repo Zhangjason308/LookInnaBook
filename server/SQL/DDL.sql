@@ -41,31 +41,37 @@ CREATE TABLE usercc(
     
 
     PRIMARY KEY (card_number),
-    FOREIGN KEY (email) REFERENCES users(email)
+    FOREIGN KEY (email) REFERENCES users(email),
+    FOREIGN KEY (card_number) REFERENCES payment(card_number)
 
 );
 
 
 
 CREATE TABLE publisher (
-    p_isbn varchar(13),
     p_name varchar(50),
     p_email varchar(30),
     p_number varchar(50),
     p_bank varchar(50),
-    
 
-    PRIMARY KEY (p_name),
-    FOREIGN KEY (p_isbn) REFERENCES book(isbn)
+    PRIMARY KEY (p_name)
+
+);
+
+CREATE TABLE cart (
+    c_cartID int,
+    num_items int,
+
+    PRIMARY KEY (c_cartID)
+    
 );
 
 CREATE TABLE author (
-    isbn varchar(13),
     a_fname varchar(50),
     a_lname varchar(50),
     
-    PRIMARY KEY(a_fname, a_lname, isbn),
-    FOREIGN KEY (isbn) REFERENCES book(isbn) on DELETE CASCADE
+    PRIMARY KEY(a_fname, a_lname)
+
 );
 
 CREATE TABLE cartItem (
@@ -74,23 +80,17 @@ CREATE TABLE cartItem (
     quantity int,
     price numeric(6,2),
 
-    PRIMARY KEY (cartID)
+   
+    FOREIGN KEY (cartID) REFERENCES cart(c_cartID),
+    FOREIGN KEY (isbn) REFERENCES book(isbn)
 );
 
-CREATE TABLE cart (
-    c_cartID int,
-    email varchar(30),
 
-    PRIMARY KEY (c_cartID),
-    FOREIGN KEY (c_cartID) REFERENCES cartItem(cartID),
-    FOREIGN KEY (email) REFERENCES users(email)
-);
 
-CREATE TABLE orders (
+CREATE TABLE book_order (
     orderID int,
     order_date varchar(30),
-    subtotal numeric(6,2),
-    tax numeric(5,2),
+    total numeric(6,2),
 	
 	PRIMARY KEY (orderID)
 );
@@ -98,14 +98,56 @@ CREATE TABLE orders (
 CREATE TABLE shipping (
     shippingID int,
     shipping_address varchar(100),
-    orderID int,
     estimatedate varchar(30),
     actualdate varchar(30),
 
-    PRIMARY KEY (shippingID, orderID),
-    FOREIGN KEY (orderID) REFERENCES orders(orderID)
+    PRIMARY KEY (shippingID)
+    
 );
 
+CREATE TABLE writes
+(
+  isbn varchar(13),
+  a_fname varchar(50),
+  a_lname varchar(50),
+  FOREIGN KEY (isbn) REFERENCES book(isbn),
+  FOREIGN KEY (a_fname, a_lname) REFERENCES Author(a_fname, a_lname)
+);
 
+CREATE TABLE publishes
+(
+  p_name varchar(50),
+  p_isbn varchar(13),
+  PRIMARY KEY (p_isbn),
+  FOREIGN KEY (p_isbn) REFERENCES book(isbn),
+  FOREIGN KEY (p_name) REFERENCES publisher(p_name)
+);
+
+CREATE TABLE usercart
+(
+  c_cartID int,
+  email varchar(50),
+  PRIMARY KEY (email),
+  FOREIGN KEY (c_cartID) REFERENCES cart(c_cartID),
+  FOREIGN KEY (email) REFERENCES users(email)
+);
+
+CREATE TABLE orders
+(
+  orderID int,
+  email varchar(50),
+  PRIMARY KEY (orderID),
+  FOREIGN KEY (orderID) REFERENCES book_order(orderID),
+  FOREIGN KEY (email) REFERENCES users(email)
+);
+
+CREATE TABLE shipped
+(
+  orderID int,
+  shippingID int,
+  PRIMARY KEY (orderID),
+  FOREIGN KEY (orderID) REFERENCES book_order(orderID),
+  FOREIGN KEY (shippingID) REFERENCES shipping(shippingID)
+);
 
 

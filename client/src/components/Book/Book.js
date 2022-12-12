@@ -13,7 +13,7 @@ export const Book = (props) => {
     };
 
     const addHandler = () => {
-      axios.post(`http://localhost:5000/books/`,{isbn: `${isbn}`, cartID: '1',quantity: `${quantity}`, price: `${price}`}).then(res=>res.data).then(() => history("/")).then(()=> history("/books"));
+      axios.post(`http://localhost:5000/books/`,{isbn: `${isbn}`, cartID: '1',quantity: '1', price: `${price}`}).then(res=>res.data);;
       
     };
     return (

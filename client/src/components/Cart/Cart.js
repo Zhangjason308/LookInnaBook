@@ -18,9 +18,9 @@ console.log(cart);
   return (
     <div>
         <ul>
-            {cart && cart.map((cartitem,i) => (
-                <div className='book' key={i}>
-                    <CartItem cart={cartitem}/>
+            {cart && cart.map((cartItem,i) => (
+                <div className='cartItem' key={i}>
+                    <CartItem cartItem={cartItem}/>
                 </div>
             ))}
         </ul>
