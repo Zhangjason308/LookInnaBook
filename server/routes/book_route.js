@@ -25,8 +25,8 @@ const router = express.Router();
             
             try {
             const {isbn, title, genre, pages, price, royalty, quantity,a_fname,a_lname} = req.body;
+            await pool.query(`INSERT INTO writes VALUES (\'${isbn}\',\'${a_fname}\',\'${a_lname}\')`);
             await pool.query(`INSERT INTO book VALUES (\'${isbn}\',\'${title}\',\'${genre}\',\'${pages}\',\'${price}\',\'${royalty}\',${quantity})`);
-            //await pool.query(`INSERT INTO writes VALUES (\'${isbn}\',\'${a_fname}\',\'${a_lname}\')`);
             await pool.query(`INSERT INTO author VALUES (\'${a_fname}\',\'${a_lname}\')`);
             await pool.query(`INSERT INTO bookinfo VALUES (\'${isbn}\',\'${title}\',\'${genre}\',\'${pages}\',\'${price}\',\'${royalty}\',${quantity},\'${a_fname}\',\'${a_lname}\')`);
             console.log(req.body);
